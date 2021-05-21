@@ -1,4 +1,4 @@
-package com.github.rafaelsantos.logtrack.model;
+package com.github.rafaelsantos.logtrack.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

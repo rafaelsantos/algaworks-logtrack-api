@@ -2,22 +2,21 @@ package com.github.rafaelsantos.logtrack.controller;
 
 import java.util.Collection;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.rafaelsantos.logtrack.model.Customer;
+import com.github.rafaelsantos.logtrack.domain.model.Customer;
+import com.github.rafaelsantos.logtrack.domain.repository.CustomerRepository;
 
 @RestController
 public class CustomerController {
 	
-	@PersistenceContext
-	private EntityManager em;
+	@Autowired
+	private CustomerRepository customerRepository;
 	
 	@GetMapping("/customers")
 	public Collection<Customer> findAll() {
-		return em.createQuery("from Customer", Customer.class).getResultList();
+		return customerRepository.findAll();
 	}
 }
