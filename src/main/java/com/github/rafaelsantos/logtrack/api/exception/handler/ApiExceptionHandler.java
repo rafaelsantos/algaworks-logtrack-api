@@ -15,9 +15,11 @@ import org.springframework.validation.FieldError;
 
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import com.github.rafaelsantos.logtrack.domain.exception.BusinessException;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -40,8 +42,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		Error error = new Error();
 		error.setStatus(status.value());
 		error.setDate(LocalDateTime.now());
+		error.setTitle("Invalid field");
 		error.setFields(fields);
 		
 		return handleExceptionInternal(exception, error, headers, status, request);
+	}
+	
+	@ExceptionHandler(BusinessException.class)
+	public ResponseEntity<Object> handleBusiness(BusinessException exception, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		
+		Error error = new Error();
+		error.setStatus(status.value());
+		error.setDate(LocalDateTime.now());
+		error.setTitle(exception.getMessage());
+		
+		return handleExceptionInternal(exception, error, new HttpHeaders(), status, request);
 	}
 }

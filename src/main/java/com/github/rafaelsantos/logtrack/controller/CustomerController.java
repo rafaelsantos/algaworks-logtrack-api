@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.rafaelsantos.logtrack.domain.model.Customer;
 import com.github.rafaelsantos.logtrack.domain.repository.CustomerRepository;
+import com.github.rafaelsantos.logtrack.domain.service.CustomerService;
 
 @RestController
 @RequestMapping("/customers")
@@ -28,6 +29,9 @@ public class CustomerController {
 	
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private CustomerService customerService;
 	
 	@GetMapping
 	public Collection<Customer> findAll() {
@@ -44,7 +48,7 @@ public class CustomerController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Customer save(@Valid @RequestBody Customer customer) {
-		return customerRepository.save(customer);
+		return customerService.save(customer);
 	}
 	
 	@PutMapping("/{id}")
@@ -53,7 +57,7 @@ public class CustomerController {
 			return ResponseEntity.notFound().build();
 		
 		customer.setId(id);
-		return ResponseEntity.ok(customerRepository.save(customer));
+		return ResponseEntity.ok(customerService.save(customer));
 	}
 	
 	@DeleteMapping("/{id}")
@@ -61,7 +65,7 @@ public class CustomerController {
 		if (!customerRepository.existsById(id))
 			return ResponseEntity.notFound().build();
 		
-		customerRepository.deleteById(id);
+		customerService.remove(id);
 		return ResponseEntity.noContent().build();
 	}
 }
