@@ -30,4 +30,9 @@ public class CustomerService {
 	public void remove(Long id) {
 		customerRepository.deleteById(id);
 	}
+	
+	public Customer search(Long id) {
+		return customerRepository.findById(id)
+				.orElseThrow(() -> new BusinessException("Customer not found"));
+	}
 }
