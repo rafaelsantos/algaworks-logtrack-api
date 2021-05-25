@@ -1,6 +1,6 @@
 package com.github.rafaelsantos.logtrack.api.exception.handler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 public class Error {
 	private Integer status;
-	private LocalDateTime date;
+	private OffsetDateTime date;
 	private String title;
 	
 	private Collection<Field> fields;

@@ -1,7 +1,6 @@
 package com.github.rafaelsantos.logtrack.api.exception.handler;
 
-import java.time.LocalDateTime;
-
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -41,7 +40,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		Error error = new Error();
 		error.setStatus(status.value());
-		error.setDate(LocalDateTime.now());
+		error.setDate(OffsetDateTime.now());
 		error.setTitle("Invalid field");
 		error.setFields(fields);
 		
@@ -54,7 +53,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		Error error = new Error();
 		error.setStatus(status.value());
-		error.setDate(LocalDateTime.now());
+		error.setDate(OffsetDateTime.now());
 		error.setTitle(exception.getMessage());
 		
 		return handleExceptionInternal(exception, error, new HttpHeaders(), status, request);
