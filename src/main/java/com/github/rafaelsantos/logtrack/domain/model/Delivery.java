@@ -13,8 +13,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+
+import com.github.rafaelsantos.logtrack.domain.ValidationGroups;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,13 +38,19 @@ public class Delivery {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull
+	@Valid
+	@ConvertGroup(from = Default.class, to = ValidationGroups.CustomerId.class)
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
+	@Valid
+	@NotNull
 	@Embedded
 	private Destination destination;
 	
+	@NotNull
 	private BigDecimal tax;
 	
 	@JsonProperty(access = Access.READ_ONLY)
